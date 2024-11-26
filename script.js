@@ -206,6 +206,20 @@ function updateChart(data) {
     }
 }
 
+// Initialize number formatting when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Format initial values
+    const homePrice = document.getElementById('homePrice');
+    const downPayment = document.getElementById('downPayment');
+    
+    if (homePrice.value) {
+        homePrice.value = formatNumber(parseInt(homePrice.value));
+    }
+    if (downPayment.value) {
+        downPayment.value = formatNumber(parseInt(downPayment.value));
+    }
+});
+
 // Format number inputs
 const homePriceInput = document.getElementById('homePrice');
 const downPaymentInput = document.getElementById('downPayment');
