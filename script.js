@@ -383,6 +383,10 @@ document.getElementById('mortgageForm').addEventListener('submit', function(e) {
     // Update charts
     updateCharts(result.amortization_schedule);
 
-    // Show results
-    document.getElementById('results').style.display = 'block';
+    // Show results with animation
+    const resultsSection = document.getElementById('results');
+    resultsSection.style.display = 'block';
+    // Force a reflow to ensure the animation triggers
+    void resultsSection.offsetWidth;
+    resultsSection.classList.add('show');
 });

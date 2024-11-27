@@ -1,43 +1,277 @@
+/* Base styles */
 body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #1a1c23 0%, #242830 100%);
+    background: linear-gradient(135deg, #1a1f2c 0%, #2d3748 100%);
     color: #fff;
+    font-family: 'Inter', sans-serif;
     min-height: 100vh;
+}
+
+/* Card styles */
+.card {
+    background: rgba(26, 32, 44, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px 16px 0 0 !important;
+}
+
+/* Form styles */
+.form-control, .form-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(13, 110, 253, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    color: #fff;
+}
+
+.form-control:hover, .form-select:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Button styles */
+.btn {
+    border-radius: 12px;
+    padding: 0.75rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    border: none;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);
+}
+
+/* Table styles */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table th {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Navigation styles */
+.nav-link {
+    color: #8e9cc9;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+}
+
+.nav-link.active {
+    color: #fff;
+    background: rgba(13, 110, 253, 0.15);
+    border-left: 3px solid #0d6efd;
+}
+
+.nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: #0d6efd;
+    transform: scaleY(1);
+    transition: transform 0.2s;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(13, 110, 253, 0.5);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(13, 110, 253, 0.7);
+}
+
+/* Chart container styles */
+.chart-container {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+    transform: scale(1.01);
+}
+
+/* Add smooth scrolling */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
+}
+
+/* Adjust spacing for navigation targets */
+section[id] {
+    scroll-margin-top: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .table th,
+    .table td {
+        font-size: 0.75rem;
+    }
+    
+    .card {
+        border-radius: 12px;
+    }
+    
+    .btn {
+        padding: 0.5rem 1.5rem;
+    }
+}
+
+/* Payment Summary styles */
+.display-4 {
+    font-weight: 600;
+}
+
+/* Apply gradient only to display-4 elements that are not the monthly payment */
+.display-4:not(#monthlyPayment) {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .display-4:not(#monthlyPayment) {
+    transform: scale(1.05);
+}
+
+/* Monthly Payment specific style */
+#monthlyPayment {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Text color styles */
+.text-success {
+    color: #00e676 !important;
+}
+
+.text-danger {
+    color: #ff5252 !important;
+}
+
+.text-primary {
+    color: #2196f3 !important;
+}
+
+/* Add animation for results appearance */
+#results {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+#results.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Outline Navigation */
+.outline-nav {
+    position: sticky;
+    top: 1rem;
+}
+
+.outline-nav .nav-link {
+    color: #8e9cc9;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+}
+
+.outline-nav .nav-link:hover {
+    color: #fff;
+}
+
+.result-card {
+    height: 100%;
+    background-color: #2a2d36;
+}
+
+.result-card .card-title {
+    color: #8e9cc9;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.result-card .card-text {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: #fff;
 }
 
 .container-lg {
     max-width: 1600px;
     margin: 0 auto;
-}
-
-.card {
-    background-color: #2a2d36;
-    border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.card-header {
-    background-color: #2a2d36;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
-}
-
-.form-control, .form-select {
-    background-color: #1e2128;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-}
-
-.form-control:focus, .form-select:focus {
-    background-color: #1e2128;
-    border-color: #0d6efd;
-    color: #fff;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-}
-
-.form-label {
-    color: #8e9cc9;
-    font-weight: 500;
 }
 
 /* Table Styles */
@@ -85,119 +319,6 @@ body {
     left: 0;
     background-color: #2a2d36;
     z-index: 2;
-}
-
-/* Outline Navigation */
-.outline-nav {
-    position: sticky;
-    top: 1rem;
-}
-
-.outline-nav .nav-link {
-    color: #8e9cc9;
-    padding: 0.5rem 0;
-    transition: color 0.2s ease;
-}
-
-.outline-nav .nav-link:hover {
-    color: #fff;
-}
-
-.result-card {
-    height: 100%;
-    background-color: #2a2d36;
-}
-
-.result-card .card-title {
-    color: #8e9cc9;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-
-.result-card .card-text {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 0;
-    color: #fff;
-}
-
-.btn-primary {
-    background-color: #0d6efd;
-    border: none;
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-}
-
-.btn-primary:hover {
-    background-color: #0b5ed7;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #2a2d36;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #0d6efd;
-}
-
-/* Navigation Styles */
-.nav-link {
-    color: #8e9cc9;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.375rem;
-    transition: all 0.2s ease;
-    margin-bottom: 0.25rem;
-    font-size: 0.875rem;
-}
-
-.nav-link:hover {
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-link.active {
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Add smooth scrolling */
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 2rem;
-}
-
-/* Adjust spacing for navigation targets */
-section[id] {
-    scroll-margin-top: 2rem;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .table th,
-    .table td {
-        font-size: 0.75rem;
-        padding: 0.4rem;
-    }
-    
-    .card-body {
-        padding: 1rem;
-    }
-    
-    .table-responsive {
-        height: 600px;
-    }
 }
 
 /* Make sure the container takes full width on larger screens */
