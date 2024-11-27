@@ -9,146 +9,198 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container-fluid px-4">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="card shadow">
-                    <div class="card-header">
-                        <h2 class="text-center mb-0 fw-bold">Shashank's Mortgage Calculator</h2>
+    <div class="container-lg py-5">
+        <div class="row">
+            <!-- Navigation Sidebar -->
+            <div class="col-md-2 mb-4">
+                <div class="card sticky-top" style="top: 2rem;">
+                    <div class="card-body p-2">
+                        <h4 class="card-title h5 mb-3">Navigation</h4>
+                        <nav class="nav flex-column">
+                            <a class="nav-link" href="#calculator">Calculator Input</a>
+                            <a class="nav-link" href="#payment-summary">Payment Summary</a>
+                            <a class="nav-link" href="#amortization">Amortization Schedule</a>
+                            <a class="nav-link" href="#expenses">Money Spent Over Time</a>
+                            <a class="nav-link" href="#savings">Money Saved Over Time</a>
+                        </nav>
                     </div>
-                    <div class="card-body p-4">
-                        <form id="mortgageForm">
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <label for="homePrice" class="form-label">Home Price ($)</label>
-                                    <input type="text" class="form-control" id="homePrice" value="1000000" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="downPayment" class="form-label">Down Payment ($)</label>
-                                    <input type="text" class="form-control" id="downPayment" value="200000" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="interestRate" class="form-label">Interest Rate (%)</label>
-                                    <input type="number" class="form-control" id="interestRate" step="0.01" value="6.5" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="loanTerm" class="form-label">Loan Term</label>
-                                    <select class="form-select" id="loanTerm" required>
-                                        <option value="30" selected>30 years</option>
-                                        <option value="20">20 years</option>
-                                        <option value="15">15 years</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="propertyTax" class="form-label">Property Tax Rate (%)</label>
-                                    <input type="number" class="form-control" id="propertyTax" step="0.01" value="1.2" required>
-                                </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow" id="calculator">
+                            <div class="card-header">
+                                <h2 class="text-center mb-0 fw-bold">Shashank's Mortgage Calculator</h2>
                             </div>
-                            
-                            <div class="row mt-4">
-                                <div class="col-md-12">
-                                    <div class="card bg-dark text-white" style="border: 1px solid rgba(255, 255, 255, 0.1);">
-                                        <div class="card-body">
-                                            <h6 class="card-subtitle mb-3" style="color: #8e9cc9;">Compare with Renting</h6>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="monthlyRent" class="form-label">Monthly Rent ($)</label>
-                                                    <input type="text" class="form-control bg-dark text-white" 
-                                                           id="monthlyRent" 
-                                                           placeholder="Enter monthly rent"
-                                                           style="border: 1px solid rgba(255, 255, 255, 0.2);">
+                            <div class="card-body p-4">
+                                <form id="mortgageForm">
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <label for="homePrice" class="form-label">Home Price ($)</label>
+                                            <input type="text" class="form-control" id="homePrice" value="1000000" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="downPayment" class="form-label">Down Payment ($)</label>
+                                            <input type="text" class="form-control" id="downPayment" value="200000" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="interestRate" class="form-label">Interest Rate (%)</label>
+                                            <input type="number" class="form-control" id="interestRate" step="0.01" value="6.5" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="loanTerm" class="form-label">Loan Term</label>
+                                            <select class="form-select" id="loanTerm" required>
+                                                <option value="30" selected>30 years</option>
+                                                <option value="20">20 years</option>
+                                                <option value="15">15 years</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="propertyTax" class="form-label">Property Tax Rate (%)</label>
+                                            <input type="number" class="form-control" id="propertyTax" step="0.01" value="1.2" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-4">
+                                        <div class="col-md-12">
+                                            <div class="card bg-dark text-white" style="border: 1px solid rgba(255, 255, 255, 0.1);">
+                                                <div class="card-body">
+                                                    <h6 class="card-subtitle mb-3" style="color: #8e9cc9;">Compare with Renting</h6>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label for="monthlyRent" class="form-label">Monthly Rent ($)</label>
+                                                            <input type="text" class="form-control bg-dark text-white" 
+                                                                   id="monthlyRent" 
+                                                                   placeholder="Enter monthly rent"
+                                                                   style="border: 1px solid rgba(255, 255, 255, 0.2);">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg px-5">Calculate Payment</button>
-                            </div>
-                        </form>
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg px-5">Calculate Payment</button>
+                                    </div>
+                                </form>
 
-                        <div id="results" class="mt-5" style="display: none;">
-                            <h3 class="text-center mb-4 fw-bold">Payment Summary</h3>
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <div class="card result-card mb-3">
-                                        <div class="card-body p-4">
-                                            <h5 class="card-title">Monthly Payment</h5>
-                                            <p class="card-text" id="monthlyPayment">$0</p>
-                                            <div class="mt-3">
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span>Principal & Interest:</span>
-                                                    <span id="principalInterest">$0</span>
-                                                </div>
-                                                <div class="d-flex justify-content-between">
-                                                    <span>Property Tax:</span>
-                                                    <span id="propertyTaxAmount">$0</span>
+                                <div id="results" style="display: none;">
+                                    <div class="col-12">
+                                        <div class="card mt-4" id="payment-summary">
+                                            <div class="card-body p-4">
+                                                <h4 class="card-title mb-4">Payment Summary</h4>
+                                                <div class="row g-4">
+                                                    <div class="col-md-6">
+                                                        <div class="card bg-dark text-white h-100">
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">Monthly Payment</h4>
+                                                                <div class="display-4 mb-4" id="monthlyPayment">$0</div>
+                                                                <h5 class="text-muted mb-3">Payment Breakdown</h5>
+                                                                <div class="d-flex justify-content-between mb-2">
+                                                                    <span>Principal & Interest:</span>
+                                                                    <span id="principalAndInterest">$0</span>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between mb-2">
+                                                                    <span>Property Tax:</span>
+                                                                    <span id="propertyTaxPayment">$0</span>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <span>Total Monthly Payment:</span>
+                                                                    <span id="totalMonthlyPayment">$0</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="card bg-dark text-white h-100">
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">Loan Summary</h4>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="mb-3">
+                                                                            <h6 class="text-muted mb-1">Loan Amount</h6>
+                                                                            <div class="h4" id="loanAmount">$0</div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <h6 class="text-muted mb-1">Down Payment</h6>
+                                                                            <div class="h4" id="downPaymentAmount">$0</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="mb-3">
+                                                                            <h6 class="text-muted mb-1">Interest Rate</h6>
+                                                                            <div class="h4" id="interestRateDisplay">0%</div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <h6 class="text-muted mb-1">Loan Term</h6>
+                                                                            <div class="h4" id="loanTermDisplay">0 years</div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <h6 class="text-muted mb-1">Total Interest</h6>
+                                                                            <div class="h4 text-danger" id="totalInterestPaid">$0</div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <h6 class="text-muted mb-1">Total Cost</h6>
+                                                                            <div class="h4" id="totalCost">$0</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card result-card mb-3">
-                                        <div class="card-body p-4">
-                                            <h5 class="card-title">Loan Summary</h5>
-                                            <div class="mt-3">
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span>Loan Amount:</span>
-                                                    <span id="loanAmount">$0</span>
-                                                </div>
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span>Total Interest:</span>
-                                                    <span id="totalInterest" class="text-danger">$0</span>
-                                                </div>
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span>Total Cost:</span>
-                                                    <span id="totalCost">$0</span>
-                                                </div>
-                                                <div class="d-flex justify-content-between">
-                                                    <span>Interest Rate:</span>
-                                                    <span id="nominalRate" class="text-info">0%</span>
+
+                                        <div class="card mt-4" id="amortization">
+                                            <div class="card-body p-4">
+                                                <h4 class="card-title">Amortization Schedule</h4>
+                                                <div class="table-responsive">
+                                                    <table class="table table-dark table-hover align-middle">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Month</th>
+                                                                <th>Total<br>Paid</th>
+                                                                <th>Monthly<br>Payment</th>
+                                                                <th>Monthly<br>Principal</th>
+                                                                <th>Monthly<br>Interest</th>
+                                                                <th>Total<br>Interest</th>
+                                                                <th>Total<br>Principal</th>
+                                                                <th>Remaining<br>Balance</th>
+                                                                <th>Interest<br>Rate %</th>
+                                                                <th>Total<br>Rent</th>
+                                                                <th>Savings<br>vs Buying</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- Will be populated by JavaScript -->
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="card mt-4">
-                                <div class="card-body p-4">
-                                    <h4 class="card-title mb-4">Amortization Schedule</h4>
-                                    <div class="table-responsive">
-                                        <table class="table table-hover" id="amortizationTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Month</th>
-                                                    <th>Total Paid</th>
-                                                    <th>Payment</th>
-                                                    <th>Principal</th>
-                                                    <th>Interest</th>
-                                                    <th>Total Interest</th>
-                                                    <th>Total Principal</th>
-                                                    <th>Remaining Balance</th>
-                                                    <th>Cumulative Interest Rate (%)</th>
-                                                    <th>Cumulative Rent Paid ($)</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Will be populated by JavaScript -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                                        <div class="card mt-4" id="expenses">
+                                            <div class="card-body p-4">
+                                                <h4 class="card-title mb-4">Money Spent Over Time</h4>
+                                                <div class="chart-container" style="position: relative; height:400px; width:100%">
+                                                    <canvas id="expenseChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <div class="card mt-4">
-                                <div class="card-body p-4">
-                                    <h4 class="card-title mb-4">Payment Breakdown Over Time</h4>
-                                    <div class="chart-container" style="position: relative; height:400px; width:100%">
-                                        <canvas id="paymentChart"></canvas>
+                                        <div class="card mt-4" id="savings">
+                                            <div class="card-body p-4">
+                                                <h4 class="card-title mb-4">Money Saved Over Time</h4>
+                                                <div class="chart-container" style="position: relative; height:400px; width:100%">
+                                                    <canvas id="savingsChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

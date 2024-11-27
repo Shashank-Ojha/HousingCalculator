@@ -97,14 +97,65 @@ function calculateMortgagePayments(homePrice, downPayment, interestRate, loanTer
     };
 }
 
-// Initialize chart variable
-let paymentChart = null;
+// Initialize chart variables
+let expenseChart = null;
+let savingsChart = null;
 
-// Function to update or create chart
-function updateChart(data) {
-    const ctx = document.getElementById('paymentChart').getContext('2d');
-    
-    // Prepare data
+// Function to create chart options
+function createChartOptions(yAxisLabel) {
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        },
+        plugins: {
+            title: {
+                display: false
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Month'
+                },
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.1)'
+                },
+                ticks: {
+                    color: '#fff'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: yAxisLabel
+                },
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.1)'
+                },
+                ticks: {
+                    color: '#fff',
+                    callback: function(value) {
+                        return formatCurrency(value);
+                    }
+                }
+            }
+        }
+    };
+}
+
+// Function to update charts
+function updateCharts(data) {
     const months = data.map(item => item.month);
     const principalPaid = data.map(item => {
         const totalPrincipal = item.payment * item.month - item.total_interest_paid;
@@ -112,28 +163,34 @@ function updateChart(data) {
     });
     const totalInterest = data.map(item => parseFloat(item.total_interest_paid.toFixed(2)));
     const cumulativeRent = data.map(item => item.cumulative_rent !== null ? parseFloat(item.cumulative_rent.toFixed(2)) : null);
+    
+    // Calculate savings vs buying
+    let cumulativeSavings = [];
+    let totalAmountPaid = 0;
+    data.forEach(month => {
+        totalAmountPaid += month.payment + month.property_tax;
+        const monthlyRentAmount = month.cumulative_rent !== null ? 
+            (month.cumulative_rent / month.month) : null;
+        if (monthlyRentAmount !== null) {
+            const monthlySavings = (month.payment + month.property_tax) - monthlyRentAmount;
+            cumulativeSavings.push(parseFloat(monthlySavings * month.month).toFixed(2));
+        } else {
+            cumulativeSavings.push(null);
+        }
+    });
 
-    // Destroy existing chart if it exists
-    if (paymentChart) {
-        paymentChart.destroy();
+    // Update Expense Chart
+    const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+    if (expenseChart) {
+        expenseChart.destroy();
     }
-
-    // Create new chart
-    paymentChart = new Chart(ctx, {
+    expenseChart = new Chart(expenseCtx, {
         type: 'line',
         data: {
             labels: months,
             datasets: [
                 {
-                    label: 'Principal Paid',
-                    data: principalPaid,
-                    borderColor: '#198754',
-                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
-                    borderWidth: 2,
-                    fill: true
-                },
-                {
-                    label: 'Total Interest',
+                    label: 'Total Interest (Cost of Borrowing)',
                     data: totalInterest,
                     borderColor: '#dc3545',
                     backgroundColor: 'rgba(220, 53, 69, 0.1)',
@@ -142,70 +199,85 @@ function updateChart(data) {
                 }
             ]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: {
-                intersect: false,
-                mode: 'index'
-            },
-            plugins: {
-                title: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Month'
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)'
-                    },
-                    ticks: {
-                        color: '#fff'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Amount ($)'
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)'
-                    },
-                    ticks: {
-                        color: '#fff',
-                        callback: function(value) {
-                            return formatCurrency(value);
-                        }
-                    }
-                }
-            }
-        }
+        options: createChartOptions('Money Spent ($)')
     });
 
-    // Add rent dataset if rent data exists
+    // Add rent dataset to expense chart if rent data exists
     if (cumulativeRent.some(value => value !== null)) {
-        paymentChart.data.datasets.push({
-            label: 'Cumulative Rent',
+        expenseChart.data.datasets.push({
+            label: 'Total Rent Paid',
             data: cumulativeRent,
             borderColor: '#0d6efd',
             backgroundColor: 'rgba(13, 110, 253, 0.1)',
             borderWidth: 2,
             fill: true
         });
-        paymentChart.update();
+        expenseChart.update();
+    }
+
+    // Update Savings Chart
+    const savingsCtx = document.getElementById('savingsChart').getContext('2d');
+    if (savingsChart) {
+        savingsChart.destroy();
+    }
+    savingsChart = new Chart(savingsCtx, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [
+                {
+                    label: 'Principal Paid (Home Equity)',
+                    data: principalPaid,
+                    borderColor: '#198754',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 2,
+                    fill: true
+                }
+            ]
+        },
+        options: createChartOptions('Money Saved ($)')
+    });
+
+    // Add savings vs buying dataset if rent data exists
+    if (cumulativeRent.some(value => value !== null)) {
+        savingsChart.data.datasets.push({
+            label: 'Extra Savings if Renting',
+            data: cumulativeSavings,
+            borderColor: '#ffc107',
+            backgroundColor: 'rgba(255, 193, 7, 0.1)',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            fill: true
+        });
+        savingsChart.update();
     }
 }
+
+// Highlight active section in navigation
+function highlightActiveSection() {
+    const sections = document.querySelectorAll('.card[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    let currentSection = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= sectionTop - 100) {
+            currentSection = section.getAttribute('id');
+        }
+    });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').slice(1) === currentSection) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Add scroll event listener
+window.addEventListener('scroll', highlightActiveSection);
 
 // Initialize number formatting when the page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -257,26 +329,38 @@ document.getElementById('mortgageForm').addEventListener('submit', function(e) {
         parseFloat(document.getElementById('propertyTax').value),
         parseFormattedNumber(document.getElementById('monthlyRent').value) || null
     );
-    
-    // Update results
-    document.getElementById('monthlyPayment').textContent = formatCurrency(result.total_monthly_payment);
-    document.getElementById('principalInterest').textContent = formatCurrency(result.monthly_payment);
-    document.getElementById('propertyTaxAmount').textContent = formatCurrency(result.monthly_property_tax);
-    document.getElementById('loanAmount').textContent = formatCurrency(result.loan_amount);
-    document.getElementById('totalInterest').textContent = formatCurrency(result.total_interest);
-    document.getElementById('totalCost').textContent = formatCurrency(result.total_cost);
-    document.getElementById('nominalRate').textContent = formatPercent(result.nominal_rate);
 
     // Update amortization table
-    const tableBody = document.querySelector('#amortizationTable tbody');
+    const tableBody = document.querySelector('.table tbody');
     tableBody.innerHTML = '';
 
+    // Update Payment Summary section
+    document.getElementById('monthlyPayment').textContent = formatCurrency(result.monthly_payment);
+    document.getElementById('principalAndInterest').textContent = formatCurrency(result.monthly_payment);
+    document.getElementById('propertyTaxPayment').textContent = formatCurrency(result.monthly_property_tax);
+    document.getElementById('totalMonthlyPayment').textContent = formatCurrency(result.total_monthly_payment);
+    
+    document.getElementById('loanAmount').textContent = formatCurrency(result.loan_amount);
+    document.getElementById('downPaymentAmount').textContent = formatCurrency(parseFormattedNumber(downPaymentInput.value));
+    document.getElementById('interestRateDisplay').textContent = formatPercent(parseFloat(document.getElementById('interestRate').value));
+    document.getElementById('loanTermDisplay').textContent = document.getElementById('loanTerm').value + ' years';
+    document.getElementById('totalInterestPaid').textContent = formatCurrency(result.total_interest);
+    document.getElementById('totalCost').textContent = formatCurrency(result.total_cost);
+    
     let totalPrincipalPaid = 0;
     let totalAmountPaid = 0;
+    let cumulativeSavings = 0;
     
     result.amortization_schedule.forEach(month => {
         totalPrincipalPaid += month.principal;
-        totalAmountPaid += month.payment + month.property_tax;  
+        totalAmountPaid += month.payment + month.property_tax;
+        
+        // Calculate savings (mortgage payment - rent) to show how much more money you'd have if renting
+        const monthlyRentAmount = month.cumulative_rent !== null ? 
+            (month.cumulative_rent / month.month) : 0;  // Get monthly rent from cumulative
+        const monthlySavings = (month.payment + month.property_tax) - monthlyRentAmount;
+        cumulativeSavings += monthlySavings;
+        
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${month.month}</td>
@@ -289,12 +373,15 @@ document.getElementById('mortgageForm').addEventListener('submit', function(e) {
             <td>${formatCurrency(month.remaining_balance)}</td>
             <td>${formatPercent(month.effective_rate)}</td>
             <td class="text-primary">${month.cumulative_rent !== null ? formatCurrency(month.cumulative_rent) : '-'}</td>
+            <td class="${cumulativeSavings > 0 ? 'text-success' : 'text-danger'} fw-bold">
+                ${month.cumulative_rent !== null ? formatCurrency(cumulativeSavings) : '-'}
+            </td>
         `;
         tableBody.appendChild(row);
     });
 
-    // Update chart
-    updateChart(result.amortization_schedule);
+    // Update charts
+    updateCharts(result.amortization_schedule);
 
     // Show results
     document.getElementById('results').style.display = 'block';
