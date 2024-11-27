@@ -79,7 +79,8 @@ function calculateMortgagePayments(homePrice, downPayment, interestRate, loanTer
             remaining_balance: Math.max(0, remainingBalance),
             total_interest_paid: totalInterest,
             effective_rate: cumulativeRate,
-            cumulative_rent: cumulativeRentPaid
+            cumulative_rent: cumulativeRentPaid,
+            property_tax: monthlyPropertyTax
         });
     }
     
@@ -270,14 +271,21 @@ document.getElementById('mortgageForm').addEventListener('submit', function(e) {
     const tableBody = document.querySelector('#amortizationTable tbody');
     tableBody.innerHTML = '';
 
+    let totalPrincipalPaid = 0;
+    let totalAmountPaid = 0;
+    
     result.amortization_schedule.forEach(month => {
+        totalPrincipalPaid += month.principal;
+        totalAmountPaid += month.payment + month.property_tax;  
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${month.month}</td>
+            <td class="text-primary fw-bold">${formatCurrency(totalAmountPaid)}</td>
             <td>${formatCurrency(month.payment)}</td>
             <td class="text-success">${formatCurrency(month.principal)}</td>
             <td class="text-danger">${formatCurrency(month.interest)}</td>
             <td class="text-danger">${formatCurrency(month.total_interest_paid)}</td>
+            <td class="text-success">${formatCurrency(totalPrincipalPaid)}</td>
             <td>${formatCurrency(month.remaining_balance)}</td>
             <td>${formatPercent(month.effective_rate)}</td>
             <td class="text-primary">${month.cumulative_rent !== null ? formatCurrency(month.cumulative_rent) : '-'}</td>
