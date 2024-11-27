@@ -293,6 +293,12 @@ section[id] {
     border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Add vertical line after Interest Rate column */
+.table th:nth-child(9),
+.table td:nth-child(9) {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .table th {
     font-weight: 600;
     color: #8e9cc9;
@@ -327,4 +333,16 @@ section[id] {
         padding-left: 2rem;
         padding-right: 2rem;
     }
+}
+
+/* Title styles */
+.calculator-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00e676 0%, #2196f3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 1rem 0;
 }

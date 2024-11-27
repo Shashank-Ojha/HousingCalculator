@@ -255,26 +255,52 @@ function updateCharts(data) {
 
 // Highlight active section in navigation
 function highlightActiveSection() {
+    // Don't update if user just clicked (within last 1000ms)
+    if (Date.now() - lastClickTime < 1000) return;
+    
     const sections = document.querySelectorAll('.card[id]');
     const navLinks = document.querySelectorAll('.nav-link');
     
-    let currentSection = '';
+    // Find which section is most visible in the viewport
+    let maxVisibleSection = '';
+    let maxVisibleAmount = 0;
     
     sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (window.scrollY >= sectionTop - 100) {
-            currentSection = section.getAttribute('id');
+        const rect = section.getBoundingClientRect();
+        const viewHeight = Math.min(window.innerHeight || document.documentElement.clientHeight);
+        
+        // Calculate how much of the section is visible
+        const visibleHeight = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
+        
+        if (visibleHeight > maxVisibleAmount && visibleHeight > 0) {
+            maxVisibleAmount = visibleHeight;
+            maxVisibleSection = section.getAttribute('id');
         }
     });
     
+    // Update active state of nav links
     navLinks.forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === currentSection) {
+        if (link.getAttribute('href').slice(1) === maxVisibleSection) {
             link.classList.add('active');
         }
     });
 }
+
+// Track last click time
+let lastClickTime = 0;
+
+// Add click handlers for navigation links
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        // Update last click time
+        lastClickTime = Date.now();
+        // Remove active class from all links
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        // Add active class to clicked link
+        this.classList.add('active');
+    });
+});
 
 // Add scroll event listener
 window.addEventListener('scroll', highlightActiveSection);
