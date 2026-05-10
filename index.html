@@ -86,12 +86,12 @@
                                                             <input type="number" class="form-control" id="marketReturn" step="0.1" value="7.0">
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="monthlySavingsRent" class="form-label">Monthly Savings (Renting) ($)</label>
-                                                            <input type="text" class="form-control" id="monthlySavingsRent" value="" placeholder="e.g. 2,000">
+                                                            <label for="baselineSavings" class="form-label" title="Your monthly savings if housing was completely free">Baseline Savings (Pre-Housing) ($)</label>
+                                                            <input type="text" class="form-control" id="baselineSavings" value="" placeholder="e.g. 10,000">
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="monthlySavingsBuy" class="form-label">Monthly Savings (Buying) ($)</label>
-                                                            <input type="text" class="form-control" id="monthlySavingsBuy" value="" placeholder="e.g. 500">
+                                                            <label for="annualMaintenance" class="form-label">Annual Maint. & Insurance (%)</label>
+                                                            <input type="number" class="form-control" id="annualMaintenance" step="0.1" value="1.5">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="annualTaxSaved" class="form-label">Annual Tax Saved (Buying) ($)</label>
@@ -222,11 +222,17 @@
                                                 <div class="mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
                                                     <h6 class="text-primary mb-2">Mathematical Model</h6>
                                                     <p class="text-muted small mb-2">
-                                                        <strong>Renting Net Worth:</strong> Start with Initial Liquid Net Worth. Each month, add Monthly Savings (Renting). The entire balance compounds at the Expected Annual Market Return rate.
+                                                        <strong>Renting Net Worth:</strong> Start with Initial Liquid Net Worth. Each month, we calculate your true savings: <em>Baseline Savings minus Monthly Rent</em>. This amount is added to your liquid pool, which compounds at the Expected Annual Market Return rate.
                                                     </p>
                                                     <p class="text-muted small mb-0">
-                                                        <strong>Buying Net Worth:</strong> Start with Initial Liquid Net Worth minus the Down Payment. Each month, add Monthly Savings (Buying) plus (Annual Tax Saved / 12). This liquid balance compounds at the market return rate. Total Net Worth equals this liquid balance plus your Home Equity (Principal Paid). Note: Home appreciation is not factored in here to provide a conservative estimate.
+                                                        <strong>Buying Net Worth:</strong> Start with Initial Liquid Net Worth minus the Down Payment. Each month, we calculate your true savings: <em>Baseline Savings minus your Total Housing Costs (Mortgage + Tax + Maintenance)</em>. We add this amount plus your Monthly Tax Savings to your liquid pool, which compounds at the market return rate. Total Net Worth equals this liquid balance plus your Home Equity (Principal Paid). Note: Home appreciation is not factored in here to provide a conservative estimate.
                                                     </p>
+                                                    <h6 class="text-warning mt-4 mb-2"><i class="bi bi-exclamation-triangle me-2"></i>Model Limitations & Drawbacks</h6>
+                                                    <ul class="text-muted small mb-0 ps-3">
+                                                        <li class="mb-1"><strong>Rent Inflation:</strong> Rent is assumed to be static over the loan term. In reality, historical rent increases (3-5% annually) drastically reduce renting savings over time.</li>
+                                                        <li class="mb-1"><strong>Diminishing Tax Savings:</strong> The model applies a flat average for tax savings. In reality, mortgage interest deduction benefits are highest in early years and drop significantly as you pay down the principal.</li>
+                                                        <li><strong>Friction Costs:</strong> The model does not explicitly deduct the initial closing costs (2-5% of loan) from the initial liquid pool, nor does it account for the high transaction costs (6-8%) of eventually selling the home to realize the equity.</li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>

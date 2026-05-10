@@ -80,8 +80,12 @@ function calculateMortgagePayments(homePrice, downPayment, interestRate, loanTer
 
         // Update Net Worth
         if (nwParams) {
-            rentingLiquid = rentingLiquid * (1 + monthlyMarketReturn) + nwParams.monthlySavingsRent;
-            buyingLiquid = buyingLiquid * (1 + monthlyMarketReturn) + nwParams.monthlySavingsBuy + (nwParams.annualTaxSaved / 12);
+            const monthlyMaintenance = (homePrice * (nwParams.annualMaintenance / 100)) / 12;
+            const monthlySavingsRent = nwParams.baselineSavings - (monthlyRent || 0);
+            const monthlySavingsBuy = nwParams.baselineSavings - (monthlyPayment + monthlyPropertyTax + monthlyMaintenance);
+            
+            rentingLiquid = rentingLiquid * (1 + monthlyMarketReturn) + monthlySavingsRent;
+            buyingLiquid = buyingLiquid * (1 + monthlyMarketReturn) + monthlySavingsBuy + (nwParams.annualTaxSaved / 12);
         }
 
         schedule.push({
@@ -374,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Format new parameters
-    const formatIds = ['initialNetWorth', 'monthlyRent', 'monthlySavingsRent', 'monthlySavingsBuy', 'annualTaxSaved'];
+    const formatIds = ['initialNetWorth', 'monthlyRent', 'baselineSavings', 'annualTaxSaved'];
     formatIds.forEach(id => {
         const el = document.getElementById(id);
         if (el && el.value) {
@@ -425,8 +429,8 @@ document.getElementById('mortgageForm').addEventListener('submit', function (e) 
     const nwParams = {
         initialNetWorth: parseFormattedNumber(document.getElementById('initialNetWorth').value),
         marketReturn: parseFloat(document.getElementById('marketReturn').value) || 0,
-        monthlySavingsRent: parseFormattedNumber(document.getElementById('monthlySavingsRent').value),
-        monthlySavingsBuy: parseFormattedNumber(document.getElementById('monthlySavingsBuy').value),
+        baselineSavings: parseFormattedNumber(document.getElementById('baselineSavings').value),
+        annualMaintenance: parseFloat(document.getElementById('annualMaintenance').value) || 0,
         annualTaxSaved: parseFormattedNumber(document.getElementById('annualTaxSaved').value)
     };
 
