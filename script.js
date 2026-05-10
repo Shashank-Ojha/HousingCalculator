@@ -99,7 +99,7 @@ function calculateMortgagePayments(homePrice, downPayment, interestRate, loanTer
             cumulative_rent: cumulativeRentPaid,
             property_tax: monthlyPropertyTax,
             net_worth_renting: rentingLiquid,
-            net_worth_buying: buyingLiquid + totalPrincipalPaid
+            net_worth_buying: buyingLiquid + downPayment + totalPrincipalPaid
         });
     }
 
