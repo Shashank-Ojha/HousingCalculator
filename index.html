@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Mortgage Calculator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,11 +20,11 @@
                     </div>
                     <div class="card-body p-2">
                         <nav class="nav flex-column">
-                            <a class="nav-link" href="#calculator">Calculator Input</a>
-                            <a class="nav-link" href="#payment-summary">Payment Summary</a>
-                            <a class="nav-link" href="#amortization">Amortization Schedule</a>
-                            <a class="nav-link" href="#expenses">Money Spent Over Time</a>
-                            <a class="nav-link" href="#savings">Money Saved Over Time</a>
+                            <a class="nav-link" href="#calculator"><i class="bi bi-calculator me-2"></i> Calculator Input</a>
+                            <a class="nav-link" href="#payment-summary"><i class="bi bi-receipt me-2"></i> Payment Summary</a>
+                            <a class="nav-link" href="#amortization"><i class="bi bi-calendar3 me-2"></i> Amortization Schedule</a>
+                            <a class="nav-link" href="#expenses"><i class="bi bi-graph-down-arrow me-2"></i> Money Spent Over Time</a>
+                            <a class="nav-link" href="#savings"><i class="bi bi-piggy-bank me-2"></i> Net Worth Analysis</a>
                         </nav>
                     </div>
                 </div>
@@ -35,18 +36,18 @@
                     <div class="col-12">
                         <div class="card shadow" id="calculator">
                             <div class="card-header">
-                                <h2 class="calculator-title text-center">Shashank's Mortgage Calculator</h2>
+                                <h2 class="calculator-title text-center"><i class="bi bi-house-door"></i> Shashank's Mortgage Calculator</h2>
                             </div>
                             <div class="card-body p-4">
                                 <form id="mortgageForm">
                                     <div class="row g-4">
                                         <div class="col-md-6">
                                             <label for="homePrice" class="form-label">Home Price ($)</label>
-                                            <input type="text" class="form-control" id="homePrice" value="1000000" required>
+                                            <input type="text" class="form-control" id="homePrice" value="2,000,000" required>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="downPayment" class="form-label">Down Payment ($)</label>
-                                            <input type="text" class="form-control" id="downPayment" value="200000" required>
+                                            <input type="text" class="form-control" id="downPayment" value="400,000" required>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="interestRate" class="form-label">Interest Rate (%)</label>
@@ -68,16 +69,33 @@
                                     
                                     <div class="row mt-4">
                                         <div class="col-md-12">
-                                            <div class="card bg-dark text-white" style="border: 1px solid rgba(255, 255, 255, 0.1);">
+                                            <div class="card" style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border-color);">
                                                 <div class="card-body">
-                                                    <h6 class="card-subtitle mb-3" style="color: #8e9cc9;">Compare with Renting</h6>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-3" style="color: #8e9cc9;"><i class="bi bi-graph-up-arrow me-2"></i>Net Worth & Opportunity Cost Parameters</h6>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-4">
+                                                            <label for="initialNetWorth" class="form-label">Initial Liquid Net Worth ($)</label>
+                                                            <input type="text" class="form-control" id="initialNetWorth" value="" placeholder="e.g. 100,000">
+                                                        </div>
+                                                        <div class="col-md-4">
                                                             <label for="monthlyRent" class="form-label">Monthly Rent ($)</label>
-                                                            <input type="text" class="form-control bg-dark text-white" 
-                                                                   id="monthlyRent" 
-                                                                   placeholder="Enter monthly rent"
-                                                                   style="border: 1px solid rgba(255, 255, 255, 0.2);">
+                                                            <input type="text" class="form-control" id="monthlyRent" value="2,500">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="marketReturn" class="form-label">Annual Market Return (%)</label>
+                                                            <input type="number" class="form-control" id="marketReturn" step="0.1" value="7.0">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="monthlySavingsRent" class="form-label">Monthly Savings (Renting) ($)</label>
+                                                            <input type="text" class="form-control" id="monthlySavingsRent" value="" placeholder="e.g. 2,000">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="monthlySavingsBuy" class="form-label">Monthly Savings (Buying) ($)</label>
+                                                            <input type="text" class="form-control" id="monthlySavingsBuy" value="" placeholder="e.g. 500">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="annualTaxSaved" class="form-label">Annual Tax Saved (Buying) ($)</label>
+                                                            <input type="text" class="form-control" id="annualTaxSaved" value="40,000">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -86,7 +104,7 @@
                                     </div>
 
                                     <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-primary btn-lg px-5">Calculate Payment</button>
+                                        <button type="submit" class="btn btn-primary btn-lg px-5"><i class="bi bi-lightning-charge-fill me-2"></i>Calculate Payment</button>
                                     </div>
                                 </form>
 
@@ -97,7 +115,7 @@
                                                 <h4 class="card-title mb-4">Payment Summary</h4>
                                                 <div class="row g-4">
                                                     <div class="col-md-6">
-                                                        <div class="card bg-dark text-white h-100" id="monthlyPaymentCard">
+                                                        <div class="card h-100" id="monthlyPaymentCard">
                                                             <div class="card-body">
                                                                 <h4 class="card-title">Monthly Payment</h4>
                                                                 <div class="display-4 mb-4" id="monthlyPayment">$0</div>
@@ -118,7 +136,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <div class="card bg-dark text-white h-100">
+                                                        <div class="card h-100">
                                                             <div class="card-body">
                                                                 <h4 class="card-title">Loan Summary</h4>
                                                                 <div class="row">
@@ -162,7 +180,7 @@
                                             <div class="card-body p-4">
                                                 <h4 class="card-title">Amortization Schedule</h4>
                                                 <div class="table-responsive">
-                                                    <table class="table table-dark table-hover align-middle">
+                                                    <table class="table table-hover align-middle">
                                                         <thead>
                                                             <tr>
                                                                 <th>Month</th>
@@ -174,8 +192,8 @@
                                                                 <th>Total<br>Principal</th>
                                                                 <th>Remaining<br>Balance</th>
                                                                 <th>Interest<br>Rate %</th>
-                                                                <th>Total<br>Rent</th>
-                                                                <th>Savings<br>vs Buying</th>
+                                                                <th>Net Worth<br>(Renting)</th>
+                                                                <th>Net Worth<br>(Buying)</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -197,9 +215,18 @@
 
                                         <div class="card mt-4" id="savings">
                                             <div class="card-body p-4">
-                                                <h4 class="card-title mb-4">Money Saved Over Time</h4>
+                                                <h4 class="card-title mb-4">Net Worth Over Time: Rent vs Buy</h4>
                                                 <div class="chart-container" style="position: relative; height:400px; width:100%">
                                                     <canvas id="savingsChart"></canvas>
+                                                </div>
+                                                <div class="mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
+                                                    <h6 class="text-primary mb-2">Mathematical Model</h6>
+                                                    <p class="text-muted small mb-2">
+                                                        <strong>Renting Net Worth:</strong> Start with Initial Liquid Net Worth. Each month, add Monthly Savings (Renting). The entire balance compounds at the Expected Annual Market Return rate.
+                                                    </p>
+                                                    <p class="text-muted small mb-0">
+                                                        <strong>Buying Net Worth:</strong> Start with Initial Liquid Net Worth minus the Down Payment. Each month, add Monthly Savings (Buying) plus (Annual Tax Saved / 12). This liquid balance compounds at the market return rate. Total Net Worth equals this liquid balance plus your Home Equity (Principal Paid). Note: Home appreciation is not factored in here to provide a conservative estimate.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
